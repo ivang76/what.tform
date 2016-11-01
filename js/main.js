@@ -39,10 +39,16 @@ function whatform_plugin(items_class_identifier, mandatary_class, nextbtn_id, pr
     $('#'+nextbtn_id).click(scroll);
     $('#'+previousbtn_id).click(scroll);    
     
+    resizeEvent();
     setDefaultState();
     checkRequired();    
 }
 
+
+//-------------------------------------------------------------------------------------
+function resizeEvent() {
+ 
+}
 
 //-------------------------------------------------------------------------------------
 function setDefaultState() {
@@ -78,8 +84,9 @@ $(window).scroll(function() {
             divOffset = $(this).offset().top;
             posy_top = (divOffset - scrollTop);
             posy_bottom = posy_top+$(this).height();        
+            console.log("> "+cc+"  " +posy_top+" "+posy_bottom+ "  win h/2 "+$(window).height() / 2);
 
-            if ( posy_top<=$(window).height() / 2 && posy_bottom>=$(window).height() / 2 ) {
+            if ( posy_top<=($(window).height() / 2) && posy_bottom>=($(window).height() / 2) && $(this).is(":visible") ) {
                 position=cc;
                 $('.'+itemsClassName).css("opacity",disable_opacity);
                 $(this).css("opacity","1");
@@ -98,6 +105,7 @@ function scroll(event) {
         if (position==num_elements_to_scroll-1 || !$('.'+itemsClassName).eq( position+1 ).is(":visible")  ) return;
         else position++;
     }
+    console.log("position "+position+ " num_elements_to_scroll "+num_elements_to_scroll);
     
     if (this.id==idOfprevBTn) {
         if (position==0) return;
@@ -113,9 +121,9 @@ function scroll(event) {
     $('.'+itemsClassName).each(function( index ) {
         div_height=$(this).height();
         
-        if (div_height>doc_height) {offset=200; } 
+        if (div_height>doc_height) offset=100; 
         else offset=(doc_height-div_height)/2;
-        console.log(div_height+"  "+doc_height+"   "+offset);        
+        if (cc==1) console.log("div h: "+div_height+"  doc h: "+doc_height+" offset: "+offset);        
         
         if (cc==position) {
             $('html, body').animate({
